@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "502627861916",
+    "project_id": "byui-tutoring-room-scheduler",
+    "storage_bucket": "byui-tutoring-room-scheduler.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502627861916:android:bc2915016b104b83263459",
+        "android_client_info": {
+          "package_name": "codewithcal.au.calendarappexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502627861916-r8aed5hk6ml38u0qve6uslnn6pi690vi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG7VBUUW8K1XBP-ojA9GGMiGz6miu2Sos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502627861916-r8aed5hk6ml38u0qve6uslnn6pi690vi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502627861916:android:4b934d8a776b313b263459",
+        "android_client_info": {
+          "package_name": "com.example.roomscheduler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502627861916-r8aed5hk6ml38u0qve6uslnn6pi690vi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG7VBUUW8K1XBP-ojA9GGMiGz6miu2Sos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502627861916-r8aed5hk6ml38u0qve6uslnn6pi690vi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
