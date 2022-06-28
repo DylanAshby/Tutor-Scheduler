@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp">
@@ -15,49 +16,24 @@
         android:text="10:00"/>
 
     <LinearLayout
-        android:background="@color/lightGray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp">
+        android:background="@color/lightGray"
+        android:padding="0dp">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:background="@color/blue"
-            android:layout_height="match_parent"
-            android:gravity="center"
+        <Button
             android:id="@+id/event1"
-            android:textSize="12sp"
-            android:lines="2"
-            android:textColor="@color/white"
-            android:text="Event 1"/>
-
-        <TextView
-            android:layout_width="0dp"
+            android:onClick="editEventAction"
+            android:layout_width="1dp"
+            android:layout_height="60dp"
+            android:layout_margin="0dp"
             android:layout_weight="1"
-            android:layout_margin="5dp"
             android:background="@color/blue"
-            android:layout_height="match_parent"
             android:gravity="center"
-            android:id="@+id/event2"
-            android:textSize="12sp"
             android:lines="2"
+            android:text="Event 1"
             android:textColor="@color/white"
-            android:text="Event 2"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:background="@color/blue"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/event3"
-            android:textSize="12sp"
-            android:lines="2"
-            android:textColor="@color/white"
-            android:text="Event 3"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 

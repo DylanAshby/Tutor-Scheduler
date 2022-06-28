@@ -19,13 +19,13 @@ public class CalendarUtils
 
     public static String formattedTime(LocalTime time)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
         return time.format(formatter);
     }
 
     public static String formattedShortTime(LocalTime time)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh a");
         return time.format(formatter);
     }
 
