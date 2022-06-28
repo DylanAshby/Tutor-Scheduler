@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             // check response.getError().getErrorCode()
             // Research how to do error handling
 
-            android.os.Process.killProcess(android.os.Process.myPid());
+            // android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 
