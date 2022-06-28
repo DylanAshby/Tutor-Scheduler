@@ -1,11 +1,15 @@
 package codewithcal.au.calendarappexample;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,19 +18,83 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static codewithcal.au.calendarappexample.CalendarUtils.daysInMonthArray;
 import static codewithcal.au.calendarappexample.CalendarUtils.monthYearFromDate;
+
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
+    // Get an instance of the cloud firestore
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    // HANDLES THE LOGIN RESULT
+    private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+            new FirebaseAuthUIActivityResultContract(),
+            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
+                @Override
+                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
+                    onSignInResult(result);
+                }
+            }
+    );
+
+    // DETERMINES SUCCESS AND FAIL STATES FOR SIGN IN
+    private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
+        IdpResponse response = result.getIdpResponse();
+        if (result.getResultCode() == RESULT_OK) {
+            // On successful sign in
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        }
+        else {
+            // CODE TO IMPLEMENT
+            // check response.getError().getErrorCode()
+            // Research how to do error handling
+
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
+    }
+
+    // FIREBASE SIGN IN INIT
+
+    // LIST OF THE SIGN IN PROVIDERS
+    List<AuthUI.IdpConfig> providers = Arrays.asList(
+            new AuthUI.IdpConfig.GoogleBuilder().build());
+
+    // SIGN IN INTENT CONTAINS PREFERRED SIGN IN METHODS USING THE ABOVE LIST
+    Intent signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // Initialize sign in screen
+        signInLauncher.launch(signInIntent);
+
+        // Start main activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
@@ -78,11 +146,3 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(new Intent(this, WeekViewActivity.class));
     }
 }
-
-
-
-
-
-
-
-
