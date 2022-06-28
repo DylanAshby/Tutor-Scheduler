@@ -3,6 +3,7 @@ package codewithcal.au.calendarappexample;
 import static java.lang.Integer.parseInt;
 import static codewithcal.au.calendarappexample.CalendarUtils.formattedTime;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +18,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class EventEditActivity extends AppCompatActivity
 {
@@ -36,10 +43,13 @@ public class EventEditActivity extends AppCompatActivity
     private LocalTime time, oldStartTime, oldEndTime;
     private LocalDate date;
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("test test test");
         edit = getIntent().getBooleanExtra("isEdit", false);
         setContentView(R.layout.activity_event_edit);
         findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
@@ -53,7 +63,9 @@ public class EventEditActivity extends AppCompatActivity
         eventDateTV.setText("Date: " + CalendarUtils.formattedDate(date));
         eventStartButton.setText(formattedTime(time));
         eventEndButton.setText(formattedTime(time.plusHours(1)));
+
         if (edit) {
+            System.out.println("test test test 2");
             findViewById(R.id.deleteButton).setVisibility(View.VISIBLE);
             String times = getIntent().getStringExtra("times");
             EditText editText = (EditText)findViewById(R.id.eventNameET);
@@ -104,6 +116,32 @@ public class EventEditActivity extends AppCompatActivity
                 }
             }
         }
+
+        /*Map<String, Object> eventInfo = new HashMap<>();
+        System.out.println("test 1");
+        eventInfo.put("name", eventName);
+        System.out.println("test 2");
+        eventInfo.put("date", CalendarUtils.selectedDate);
+        System.out.println("test 3");
+        eventInfo.put("start", time.withHour(startHour).withMinute(startMinute));
+        System.out.println("test 4");
+        eventInfo.put("end", time.withHour(endHour).withMinute(endMinute));
+        System.out.println("test 5");
+        db.collection("cities")
+        .add(eventInfo)
+        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getBaseContext(), "DocumentSnapshot successfully written!", Toast.LENGTH_SHORT).show();
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getBaseContext(), "Error writing document", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
         // check here for if there is a conflict with this event and any other event
         Event.eventsList.add(newEvent);
         finish();
