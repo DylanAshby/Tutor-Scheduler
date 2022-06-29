@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     protected void onCreate(Bundle savedInstanceState)
     {
         // Initialize sign in screen
-        // signInLauncher.launch(signInIntent);
+        signInLauncher.launch(signInIntent);
 
         // Start main activity
         super.onCreate(savedInstanceState);
