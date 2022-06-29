@@ -139,7 +139,7 @@ public class EventEditActivity extends AppCompatActivity
         });
 
         // check here for if there is a conflict with this event and any other event
-        Event.eventsList.add(newEvent);
+        // Event.eventsList.add(newEvent);
         finish();
     }
 
