@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EventEditActivity extends AppCompatActivity
 {
@@ -49,7 +51,7 @@ public class EventEditActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("test test test");
+        Log.d("MyApp","I am here");
         edit = getIntent().getBooleanExtra("isEdit", false);
         setContentView(R.layout.activity_event_edit);
         findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
@@ -94,11 +96,10 @@ public class EventEditActivity extends AppCompatActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void saveEventAction(View view)
-    {
+    public void saveEventAction(View view) throws InterruptedException {
         if (time.withHour(endHour).withMinute(endMinute).isBefore(time.withHour(startHour).withMinute(startMinute)))
         {
-            Toast.makeText(this, "End time cannot be before Start time.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "End time cannot be before Start time", Toast.LENGTH_SHORT).show();
             return;
         }
         String eventName = eventNameET.getText().toString();
@@ -117,30 +118,25 @@ public class EventEditActivity extends AppCompatActivity
             }
         }
 
-        /*Map<String, Object> eventInfo = new HashMap<>();
-        System.out.println("test 1");
+        Map<String, Object> eventInfo = new HashMap<>();
         eventInfo.put("name", eventName);
-        System.out.println("test 2");
-        eventInfo.put("date", CalendarUtils.selectedDate);
-        System.out.println("test 3");
-        eventInfo.put("start", time.withHour(startHour).withMinute(startMinute));
-        System.out.println("test 4");
-        eventInfo.put("end", time.withHour(endHour).withMinute(endMinute));
-        System.out.println("test 5");
-        db.collection("cities")
+        eventInfo.put("date", CalendarUtils.selectedDate.toString());
+        eventInfo.put("start", time.withHour(startHour).withMinute(startMinute).toString());
+        eventInfo.put("end", time.withHour(endHour).withMinute(endMinute).toString());
+        db.collection("KIM 270")
         .add(eventInfo)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getBaseContext(), "DocumentSnapshot successfully written!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
             }
         })
         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getBaseContext(), "Error writing document", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Error writing document", Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
 
         // check here for if there is a conflict with this event and any other event
         Event.eventsList.add(newEvent);
