@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         }
         else {
+            // On failed sign in
             Toast.makeText(MainActivity.this, "Failed Registration: " + response.getError().getErrorCode(), Toast.LENGTH_SHORT).show();
         }
     }
