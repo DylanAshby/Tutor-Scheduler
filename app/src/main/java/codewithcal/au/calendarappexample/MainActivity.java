@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,14 +41,13 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-
-    // Get an instance of the cloud firestore
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // HANDLES THE LOGIN RESULT
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
@@ -85,12 +85,39 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             .setAvailableProviders(providers)
             .build();
 
+    // DATABASE ACCESS
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         // Initialize sign in screen
         signInLauncher.launch(signInIntent);
+
+        db.collection("KIM 270")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Convert database access to proper fields for Event
+                                String name = document.get("name").toString();                              // Name
+                                LocalDate localDate = LocalDate.parse(document.get("date").toString());     // Date
+                                LocalTime start = LocalTime.parse(document.get("start").toString());        // Start-time
+                                LocalTime end = LocalTime.parse(document.get("end").toString());            // End-time
+
+                                // Create new event from fields and add to event list
+                                Event newEvent = new Event(name, localDate, start, end);
+                                Event.eventsList.add(newEvent);
+                            }
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Database read failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         // Start main activity
         super.onCreate(savedInstanceState);

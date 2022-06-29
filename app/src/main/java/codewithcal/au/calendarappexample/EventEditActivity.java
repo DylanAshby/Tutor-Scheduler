@@ -129,6 +129,7 @@ public class EventEditActivity extends AppCompatActivity
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Toast.makeText(getBaseContext(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
+                Event.eventsList.add(newEvent); // THIS MIGHT BE A PATCH JOB, CONSIDER CHANGING AT SOME POINT
             }
         })
         .addOnFailureListener(new OnFailureListener() {
@@ -139,8 +140,8 @@ public class EventEditActivity extends AppCompatActivity
         });
 
         // check here for if there is a conflict with this event and any other event
-        // Event.eventsList.add(newEvent);
         finish();
+        startActivity(getIntent());
     }
 
     public void popTimePickerStart(View view)
