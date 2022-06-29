@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,11 +68,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         }
         else {
-            // CODE TO IMPLEMENT
-            // check response.getError().getErrorCode()
-            // Research how to do error handling
-
-            // android.os.Process.killProcess(android.os.Process.myPid());
+            Toast.makeText(MainActivity.this, "Failed Registration: " + response.getError().getErrorCode(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     protected void onCreate(Bundle savedInstanceState)
     {
         // Initialize sign in screen
-        // signInLauncher.launch(signInIntent);
+        signInLauncher.launch(signInIntent);
 
         // Start main activity
         super.onCreate(savedInstanceState);
@@ -100,26 +97,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
-
-        // TEST CODE: WRITE TO DATABASE
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Keanu");
-        user.put("last", "Reeves");
-
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("", "Error adding document", e);
-                    }
-                });
     }
 
     private void initWidgets()
